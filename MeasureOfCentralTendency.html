@@ -1,0 +1,123 @@
+<html>
+<script>
+function data()
+{
+var s="<form action='#' id='form1'><center><h1>HOW MANY ELEMENTS DO YOU WANT?<h1></center>";
+
+var s1="<center>No. of elements<input type='number' id='no'><br><button onclick='input()'>SUMBIT</button></center>";
+document.write(s+s1);
+}
+function input()
+{
+var num1=parseInt(document.getElementById('no').value);
+var data1="<center><table border='1'><tr><th><h1>Data</h1></th></tr>";
+for(var i=0;i<num1;i=i+1)
+{
+var data2="<tr><td><input type='number'</td></tr>";
+data1=data1+data2;
+}
+data1=data1+"</table><button onclick='stat()'><h1>SUMBIT</h1></button></center></form>";
+document.write(data1);	
+
+}
+function stat()
+{
+var numberofelements=parseInt(document.getElementById('no').value);
+var mydata=new Array(numberofelements);
+var p1=document.getElementsByTagName('input');
+for(var i=0;i<=numberofelements;i=i+1)
+{
+p1[i].id="no"+(i);
+}
+for(var i=0;i<numberofelements;i=i+1)
+{
+mydata[i]=parseInt(p1[i+1].value);
+}
+document.write("<hr><br><br>");
+var sum=0;
+for(var i=0;i<numberofelements;i=i+1)
+{
+sum=sum+mydata[i];
+}
+var mean=sum/(numberofelements);
+var dmean="<h1>MEAN OF DATA IS "+mean+"</h1><hr><br>";
+//MEDIAN
+mydata.sort();
+
+var mid=0,median=0;
+if(numberofelements%2==0)
+{
+mid=(numberofelements/2);
+median=(mydata[mid-1]+mydata[mid])/2;
+}
+else
+{
+mid=(numberofelements+1)/2;
+median=(mydata[mid-1]);
+}
+var dmedian="<h1>MEDIAN OF DATA IS "+median+"</h1><hr><br>";
+//MODE
+var max=0,max2=0,mode=0;
+for(var i=0;i<numberofelements;i++)
+{
+if(mydata[i]>max)
+{
+max=mydata[i];
+}
+}
+var arr2=Array(max+1);
+for(var i=0;i<max+1;i=i+1)
+{
+arr2[i]=0;
+}
+for(var i=0;i<numberofelements;i=i+1){
+arr2[mydata[i]]=arr2[mydata[i]]+1;
+}
+for(var i=0;i<arr2.length;i=i+1)
+{
+if(arr2[i]>max2){
+max2=mydata[i];
+mode=i;
+}
+}
+var dmode="<h1>MODE OF DATA IS "+mode+"</h1><hr><br>";
+var std=0,sumstd=0;
+for(var i=0;i<numberofelements;i=i+1)
+{
+var sq=parseInt(Math.pow(mydata[i]-mean,2));
+sumstd=sumstd+sq;
+}
+std=Math.sqrt(sumstd/(numberofelements-1));
+var dstd="<h1>STANDARD DEVIATION OF DATA IS "+std+"</h1><hr><br>";
+//VARIANCE
+var variance =std*std;
+var dvariance="<h1>VARIANCE OF DATA IS "+variance+"</h1><hr><br>";
+
+//Z-SCORE
+var zscore=Array(numberofelements);
+for(var i=0;i<numberofelements;i=i+1)
+{
+var z=(mydata[i]-mean)/std;
+zscore[i]=z;
+}
+var fdatatable="<center><table border='1'><tr><th><h1>Data</h1></th><th><h1>Z-SCORE</h1></th></tr>";
+for(var i=0;i<numberofelements;i=i+1)
+{
+var data2="<tr><td>"+mydata[i]+"</td><td>"+zscore[i]+"</td></tr>";
+fdatatable=fdatatable+data2;
+}
+fdatatable=fdatatable+"</table><br><br>";
+fdatatable=fdatatable+"[<b style='color:red;'>ALERT:Z-SCORE BECOMES INFINITY IF STANDARD DEVIATION IS ZERO SINCE ZSCORE=((x-mean)/standard_deviation) if x is an observation in data</b>]<br><hr><br>";
+var fmeasurements=
+fdatatable=fdatatable+dmean+dmedian+dmode+dstd+dvariance;
+
+document.getElementById('form1').innerHTML=fdatatable;
+
+}
+</script>
+<body>
+<center>
+<h1 style="Color:blue;">MEAN,MEDIAN,MODE,Z-SCORE,STANDARD DEVIATION,VARIANCE</h1>
+<button onclick="data()"><h1>Enter the data</h1></button><br><br><br>
+</body>
+</html>
